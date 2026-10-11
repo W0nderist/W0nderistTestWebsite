@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A small laboratory for mathematics, robotics, and coding.">
+  <title>Math & Robot Lab</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6fa;
+      color: #202a38;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #172b4d;
+      color: white;
+      padding: 28px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: clamp(28px, 5vw, 40px);
+    }
+
+    header p {
+      margin-bottom: 0;
+      color: #d5e2f5;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 14px;
+      background: #243b60;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      width: min(900px, calc(100% - 32px));
+      margin: 30px auto;
+    }
+
+    section {
+      background: white;
+      padding: 24px;
+      margin-bottom: 22px;
+      border: 1px solid #dce3ed;
+      border-radius: 10px;
+    }
+
+    h2 {
+      margin-top: 0;
+      color: #1d477c;
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+    }
+
+    .project {
+      padding: 16px;
+      border: 1px solid #dce3ed;
+      border-radius: 8px;
+      background: #f8faff;
+    }
+
+    .calculator {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    input, button {
+      font: inherit;
+      padding: 10px 12px;
+      border-radius: 6px;
+    }
+
+    input {
+      width: 100%;
+      min-width: 0;
+      border: 1px solid #aab7ca;
+    }
+
+    .calculator input {
+      flex: 1 1 160px;
+    }
+
+    button {
+      border: none;
+      background: #2459a6;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #173f7b;
+    }
+
+    #result {
+      font-weight: bold;
+      overflow-wrap: anywhere;
+    }
+
+    footer {
+      padding: 22px;
+      text-align: center;
+      color: #657187;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Math & Robot Lab</h1>
+    <p>Mathematics, engineering, and experiments in code.</p>
+  </header>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#projects">Projects</a>
+    <a href="#calculator">Calculator</a>
+    <a href="#about">About</a>
+  </nav>
+
+  <main>
+    <section id="home">
+      <h2>Welcome to the Lab</h2>
+      <p>
+        This is my personal space for exploring mathematics,
+        robotics, programming, and interesting ideas.
+      </p>
+      <p>
+        The website is just getting started. More tools and
+        experiments can be added over time.
+      </p>
+    </section>
+
+    <section id="projects">
+      <h2>Projects</h2>
+      <div class="projects">
+        <div class="project">
+          <h3>Mathematics</h3>
+          <p>Equations, calculations, graphs, and mathematical puzzles.</p>
+        </div>
+
+        <div class="project">
+          <h3>Robotics</h3>
+          <p>Robot designs, sensors, automation, and engineering ideas.</p>
+        </div>
+
+        <div class="project">
+          <h3>Programming</h3>
+          <p>Small programs, coding experiments, and useful tools.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="calculator">
+      <h2>Quick Calculator</h2>
+      <p>Enter two numbers and choose an operation.</p>
+
+      <div class="calculator">
+        <input id="numberA" type="number" step="any"
+          placeholder="First number" aria-label="First number">
+
+        <input id="numberB" type="number" step="any"
+          placeholder="Second number" aria-label="Second number">
+
+        <button onclick="calculate('+')">Add</button>
+        <button onclick="calculate('-')">Subtract</button>
+        <button onclick="calculate('*')">Multiply</button>
+        <button onclick="calculate('/')">Divide</button>
+      </div>
+
+      <p id="result" aria-live="polite">Your result will appear here.</p>
+    </section>
+
+    <section id="about">
+      <h2>About This Website</h2>
+      <p>
+        This website is built with HTML, CSS, and JavaScript
+        and hosted for free with GitHub Pages.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    Math & Robot Lab · Built with code
+  </footer>
+
+  <script>
+    function calculate(operation) {
+      const a = document.getElementById("numberA").value;
+      const b = document.getElementById("numberB").value;
+      const result = document.getElementById("result");
+
+      if (a.trim() === "" || b.trim() === "") {
+        result.textContent = "Please enter both numbers.";
+        return;
+      }
+
+      const x = Number(a);
+      const y = Number(b);
+      let answer;
+
+      if (operation === "+") answer = x + y;
+      if (operation === "-") answer = x - y;
+      if (operation === "*") answer = x * y;
+
+      if (operation === "/") {
+        if (y === 0) {
+          result.textContent = "Cannot divide by zero.";
+          return;
+        }
+        answer = x / y;
+      }
+
+      result.textContent = "Result: " + answer;
+    }
+  </script>
+</body>
+</html>
