@@ -4,242 +4,910 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A small laboratory for mathematics, robotics, and coding.">
-  <title>Math & Robot Lab</title>
+
+  <meta name="description" content="An interactive mathematics workspace for exploring equations, functions, and numbers.">
+
+  <title>MATHEMATICA — Explore Mathematics</title>
 
   <style>
+    :root {
+      --paper: #f6f5ef;
+      --paper-light: #fffef9;
+      --ink: #172d49;
+      --ink-soft: #52647b;
+      --blue: #315fa5;
+      --blue-light: #dce8f8;
+      --orange: #d67838;
+      --green: #327d69;
+      --grid: rgba(61, 111, 173, 0.12);
+      --border: #d5dce5;
+    }
+
     * {
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 24px;
+    }
+
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f6fa;
-      color: #202a38;
-      line-height: 1.6;
+      color: var(--ink);
+      background-color: var(--paper);
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 28px 28px;
+      font-family: "Cambria", "Times New Roman", serif;
+      line-height: 1.65;
     }
 
-    header {
-      background: #172b4d;
-      color: white;
-      padding: 28px 20px;
-      text-align: center;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: clamp(28px, 5vw, 40px);
-    }
-
-    header p {
-      margin-bottom: 0;
-      color: #d5e2f5;
-    }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 20px;
-      padding: 14px;
-      background: #243b60;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
-    }
-
-    main {
-      width: min(900px, calc(100% - 32px));
-      margin: 30px auto;
-    }
-
-    section {
-      background: white;
-      padding: 24px;
-      margin-bottom: 22px;
-      border: 1px solid #dce3ed;
-      border-radius: 10px;
-    }
-
-    h2 {
-      margin-top: 0;
-      color: #1d477c;
-    }
-
-    .projects {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 14px;
-    }
-
-    .project {
-      padding: 16px;
-      border: 1px solid #dce3ed;
-      border-radius: 8px;
-      background: #f8faff;
-    }
-
-    .calculator {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    input, button {
+    button,
+    input,
+    select {
       font: inherit;
-      padding: 10px 12px;
-      border-radius: 6px;
-    }
-
-    input {
-      width: 100%;
-      min-width: 0;
-      border: 1px solid #aab7ca;
-    }
-
-    .calculator input {
-      flex: 1 1 160px;
     }
 
     button {
-      border: none;
-      background: #2459a6;
-      color: white;
       cursor: pointer;
     }
 
-    button:hover {
-      background: #173f7b;
+    a {
+      color: inherit;
     }
 
-    #result {
+    .site-header {
+      background: var(--ink);
+      color: white;
+      border-bottom: 5px solid var(--orange);
+    }
+
+    .header-inner {
+      max-width: 1180px;
+      padding: 22px 28px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .brand-symbol {
+      width: 52px;
+      height: 52px;
+      border: 1px solid #8da5c7;
+      display: grid;
+      place-items: center;
+      font-size: 31px;
+      color: #f5c78b;
+      flex-shrink: 0;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-family: "Courier New", monospace;
+      font-size: clamp(19px, 3vw, 27px);
+      letter-spacing: 2px;
+      line-height: 1.3;
+    }
+
+    .brand p {
+      margin: 4px 0 0;
+      color: #bdcde0;
+      font-family: "Courier New", monospace;
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+
+    .header-index {
+      text-align: right;
+      color: #bdcde0;
+      font-family: "Courier New", monospace;
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+
+    .header-index strong {
+      display: block;
+      color: #f5c78b;
+      font-size: 13px;
+    }
+
+    nav {
+      background: #203d60;
+      border-top: 1px solid #355476;
+    }
+
+    .nav-inner {
+      max-width: 1180px;
+      margin: auto;
+      padding: 0 28px;
+      display: flex;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      display: block;
+      padding: 13px 19px;
+      font-family: "Courier New", monospace;
+      font-size: 12px;
+      text-decoration: none;
+      color: #dce8f8;
+      border-right: 1px solid rgba(255, 255, 255, 0.09);
+    }
+
+    nav a:hover {
+      background: #315779;
+      color: white;
+    }
+
+    main {
+      width: min(1120px, calc(100% - 36px));
+      margin: 36px auto 60px;
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 13px;
+      color: var(--blue);
+      font-family: "Courier New", monospace;
       font-weight: bold;
+      font-size: 11px;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+
+    .section-label::before {
+      content: "";
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--orange);
+    }
+
+    .hero {
+      background: var(--paper-light);
+      border: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      min-height: 365px;
+    }
+
+    .hero-copy {
+      padding: clamp(25px, 5vw, 55px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero h2 {
+      font-size: clamp(36px, 5vw, 59px);
+      line-height: 1.05;
+      letter-spacing: -1.5px;
+      margin: 0 0 20px;
+      font-weight: normal;
+    }
+
+    .hero h2 span {
+      color: var(--blue);
+      font-style: italic;
+    }
+
+    .hero-copy > p {
+      color: var(--ink-soft);
+      max-width: 480px;
+      margin: 0 0 24px;
+      font-size: 16px;
+    }
+
+    .primary-link {
+      display: inline-block;
+      align-self: flex-start;
+      padding: 11px 17px;
+      background: var(--ink);
+      color: white;
+      text-decoration: none;
+      font-family: "Courier New", monospace;
+      font-size: 12px;
+      border: 1px solid var(--ink);
+    }
+
+    .primary-link:hover {
+      background: var(--blue);
+    }
+
+    .hero-art {
+      min-height: 300px;
+      border-left: 1px solid var(--border);
+      padding: 28px;
+      background-color: #eaf0f8;
+      background-image:
+        linear-gradient(rgba(49, 95, 165, 0.13) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(49, 95, 165, 0.13) 1px, transparent 1px);
+      background-size: 25px 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    .art-caption {
+      font-family: "Courier New", monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: var(--blue);
+    }
+
+    .equation {
+      font-size: clamp(27px, 4vw, 43px);
+      text-align: center;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    .equation small {
+      display: block;
+      font-size: 15px;
+      color: var(--ink-soft);
+    }
+
+    .equation-line {
+      width: 75%;
+      height: 1px;
+      margin: 5px auto;
+      background: #a4b8d5;
+    }
+
+    .formula-footer {
+      font-family: "Courier New", monospace;
+      color: var(--ink-soft);
+      text-align: right;
+      font-size: 11px;
+    }
+
+    .notation-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      margin: 20px 0 48px;
+      border: 1px solid var(--border);
+      background: var(--paper-light);
+    }
+
+    .notation {
+      padding: 14px 10px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+
+    .notation:last-child {
+      border-right: 0;
+    }
+
+    .notation strong {
+      display: block;
+      font-size: 23px;
+      color: var(--blue);
+      font-weight: normal;
+    }
+
+    .notation span {
+      font-family: "Courier New", monospace;
+      font-size: 10px;
+      color: var(--ink-soft);
+    }
+
+    .content-section {
+      margin-top: 45px;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 20px;
+      margin-bottom: 19px;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 12px;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(25px, 4vw, 34px);
+      margin: 0;
+      font-weight: normal;
+      line-height: 1.2;
+    }
+
+    .section-heading > span {
+      font-family: "Courier New", monospace;
+      color: var(--ink-soft);
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .topic-card {
+      min-width: 0;
+      background: var(--paper-light);
+      border: 1px solid var(--border);
+      padding: 20px;
+      position: relative;
+    }
+
+    .topic-card::before {
+      content: "";
+      display: block;
+      width: 28px;
+      height: 3px;
+      background: var(--orange);
+      margin-bottom: 17px;
+    }
+
+    .topic-number {
+      color: #8898ad;
+      font-family: "Courier New", monospace;
+      font-size: 11px;
+    }
+
+    .topic-card h3 {
+      font-size: 22px;
+      font-weight: normal;
+      margin: 6px 0 8px;
+    }
+
+    .topic-card p {
+      font-size: 14px;
+      color: var(--ink-soft);
+      margin: 0 0 14px;
+    }
+
+    .topic-formula {
+      background: #eaf0f8;
+      border-left: 2px solid var(--blue);
+      padding: 10px;
+      text-align: center;
+      font-size: 20px;
       overflow-wrap: anywhere;
     }
 
-    footer {
-      padding: 22px;
+    .calculator-panel {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--paper-light);
+      border: 1px solid var(--border);
+    }
+
+    .calculator-info {
+      padding: clamp(22px, 4vw, 35px);
+      border-right: 1px solid var(--border);
+    }
+
+    .calculator-info h3 {
+      font-weight: normal;
+      font-size: 27px;
+      margin: 0 0 8px;
+    }
+
+    .calculator-info p {
+      color: var(--ink-soft);
+      font-size: 14px;
+    }
+
+    .calculator-info .big-symbol {
+      font-size: 72px;
+      color: var(--blue);
+      line-height: 1.2;
+      margin-top: 20px;
+    }
+
+    .calculator {
+      padding: clamp(22px, 4vw, 35px);
+      min-width: 0;
+    }
+
+    .calculator label {
+      display: block;
+      font-family: "Courier New", monospace;
+      font-size: 11px;
+      color: var(--ink-soft);
+      margin: 14px 0 5px;
+    }
+
+    .calculator input,
+    .calculator select {
+      width: 100%;
+      padding: 11px;
+      color: var(--ink);
+      background: white;
+      border: 1px solid #b9c5d5;
+      border-radius: 0;
+      outline-offset: 3px;
+    }
+
+    .calculator input:focus,
+    .calculator select:focus {
+      outline: 2px solid var(--blue);
+    }
+
+    .calculate-button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 18px;
+      border: 0;
+      background: var(--blue);
+      color: white;
+      font-family: "Courier New", monospace;
+      font-size: 12px;
+    }
+
+    .calculate-button:hover {
+      background: var(--ink);
+    }
+
+    .result-box {
+      margin-top: 17px;
+      padding: 15px;
+      min-height: 85px;
+      border: 1px solid #bdcde1;
+      background: #eaf0f8;
+      overflow-wrap: anywhere;
+    }
+
+    .result-box .result-label {
+      font-family: "Courier New", monospace;
+      text-transform: uppercase;
+      font-size: 10px;
+      color: var(--blue);
+      letter-spacing: 1px;
+    }
+
+    #result {
+      font-size: 23px;
+      margin-top: 5px;
+    }
+
+    .theorem {
+      margin-top: 45px;
+      background: #edf1f6;
+      border: 1px solid #c8d3e2;
+      border-left: 5px solid var(--blue);
+      padding: clamp(20px, 4vw, 32px);
+    }
+
+    .theorem-top {
+      font-family: "Courier New", monospace;
+      color: var(--blue);
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+
+    .theorem h2 {
+      font-size: 27px;
+      font-weight: normal;
+      margin: 8px 0;
+    }
+
+    .theorem p {
+      margin-bottom: 0;
+      color: var(--ink-soft);
+    }
+
+    .theorem-formula {
       text-align: center;
-      color: #657187;
+      margin: 18px 0 8px;
+      font-size: clamp(21px, 4vw, 30px);
+      color: var(--ink);
+    }
+
+    footer {
+      padding: 25px 20px;
+      color: #dce8f8;
+      background: var(--ink);
+      border-top: 4px solid var(--orange);
+      text-align: center;
+    }
+
+    footer strong {
+      font-family: "Courier New", monospace;
+      letter-spacing: 2px;
+      font-size: 12px;
+    }
+
+    footer p {
+      font-size: 12px;
+      margin-bottom: 0;
+      color: #bdcde0;
+    }
+
+    @media (max-width: 760px) {
+      .header-inner {
+        padding: 18px;
+      }
+
+      .header-index {
+        display: none;
+      }
+
+      .nav-inner {
+        padding: 0 8px;
+      }
+
+      nav a {
+        padding: 11px 12px;
+      }
+
+      main {
+        width: calc(100% - 24px);
+        margin-top: 20px;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-art {
+        border-left: 0;
+        border-top: 1px solid var(--border);
+        min-height: 245px;
+      }
+
+      .topic-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .calculator-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .calculator-info {
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .calculator-info .big-symbol {
+        font-size: 48px;
+      }
+
+      .section-heading {
+        align-items: start;
+      }
+
+      .section-heading > span {
+        white-space: normal;
+        text-align: right;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .brand-symbol {
+        width: 42px;
+        height: 42px;
+      }
+
+      .brand h1 {
+        font-size: 17px;
+        letter-spacing: 1px;
+      }
+
+      .brand p {
+        font-size: 9px;
+      }
+
+      .notation {
+        padding: 10px 3px;
+      }
+
+      .notation strong {
+        font-size: 19px;
+      }
+
+      .notation span {
+        font-size: 9px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <header>
-    <h1>Math & Robot Lab</h1>
-    <p>Mathematics, engineering, and experiments in code.</p>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-symbol" aria-hidden="true">∑</div>
+        <div>
+          <h1>MATHEMATICA</h1>
+          <p>A SPACE FOR MATHEMATICAL EXPLORATION</p>
+        </div>
+      </div>
+
+      <div class="header-index">
+        <strong>FIELD NOTES No. 001</strong>
+        EST. ∞ · ALWAYS EXPLORING
+      </div>
+    </div>
+
+    <nav>
+      <div class="nav-inner">
+        <a href="#home">HOME</a>
+        <a href="#topics">MATHEMATICS</a>
+        <a href="#calculator">CALCULATOR</a>
+        <a href="#theorem">THEOREM</a>
+      </div>
+    </nav>
   </header>
 
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#projects">Projects</a>
-    <a href="#calculator">Calculator</a>
-    <a href="#about">About</a>
-  </nav>
-
   <main>
-    <section id="home">
-      <h2>Welcome to the Lab</h2>
-      <p>
-        This is my personal space for exploring mathematics,
-        robotics, programming, and interesting ideas.
-      </p>
-      <p>
-        The website is just getting started. More tools and
-        experiments can be added over time.
-      </p>
-    </section>
 
-    <section id="projects">
-      <h2>Projects</h2>
-      <div class="projects">
-        <div class="project">
-          <h3>Mathematics</h3>
-          <p>Equations, calculations, graphs, and mathematical puzzles.</p>
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <div class="section-label">THE MATHEMATICAL WORKSPACE</div>
+
+        <h2>Everything begins with an <span>equation.</span></h2>
+
+        <p>
+          Explore the patterns, principles, and structures that
+          describe our universe. From elementary arithmetic to
+          abstract mathematical ideas, every problem has something
+          to teach us.
+        </p>
+
+        <a class="primary-link" href="#topics">
+          EXPLORE THE SUBJECTS &rarr;
+        </a>
+      </div>
+
+      <div class="hero-art">
+        <div class="art-caption">FIG. 01 — MATHEMATICAL NOTATION</div>
+
+        <div class="equation">
+          <div>x² + y² = r²</div>
+          <div class="equation-line"></div>
+          <div>∑ aₙ = S</div>
+          <small>The language of patterns</small>
+          <div style="margin-top: 12px;">∫ f(x) dx</div>
         </div>
 
-        <div class="project">
-          <h3>Robotics</h3>
-          <p>Robot designs, sensors, automation, and engineering ideas.</p>
-        </div>
-
-        <div class="project">
-          <h3>Programming</h3>
-          <p>Small programs, coding experiments, and useful tools.</p>
+        <div class="formula-footer">
+          GEOMETRY · ALGEBRA · CALCULUS
         </div>
       </div>
     </section>
 
-    <section id="calculator">
-      <h2>Quick Calculator</h2>
-      <p>Enter two numbers and choose an operation.</p>
+    <div class="notation-strip">
+      <div class="notation">
+        <strong>π</strong>
+        <span>CONSTANTS</span>
+      </div>
+      <div class="notation">
+        <strong>∑</strong>
+        <span>SUMMATION</span>
+      </div>
+      <div class="notation">
+        <strong>√x</strong>
+        <span>RADICALS</span>
+      </div>
+      <div class="notation">
+        <strong>∞</strong>
+        <span>INFINITY</span>
+      </div>
+    </div>
 
-      <div class="calculator">
-        <input id="numberA" type="number" step="any"
-          placeholder="First number" aria-label="First number">
-
-        <input id="numberB" type="number" step="any"
-          placeholder="Second number" aria-label="Second number">
-
-        <button onclick="calculate('+')">Add</button>
-        <button onclick="calculate('-')">Subtract</button>
-        <button onclick="calculate('*')">Multiply</button>
-        <button onclick="calculate('/')">Divide</button>
+    <section class="content-section" id="topics">
+      <div class="section-heading">
+        <div>
+          <div class="section-label">01 / AREAS OF STUDY</div>
+          <h2>Explore Mathematics</h2>
+        </div>
+        <span>THREE STARTING POINTS</span>
       </div>
 
-      <p id="result" aria-live="polite">Your result will appear here.</p>
+      <div class="topic-grid">
+        <article class="topic-card">
+          <div class="topic-number">SUBJECT 001</div>
+          <h3>Algebra</h3>
+          <p>
+            Discover variables, expressions, equations, and the
+            relationships that connect quantities.
+          </p>
+          <div class="topic-formula">ax + b = 0</div>
+        </article>
+
+        <article class="topic-card">
+          <div class="topic-number">SUBJECT 002</div>
+          <h3>Geometry</h3>
+          <p>
+            Study shapes, dimensions, angles, distances, and the
+            mathematics of space.
+          </p>
+          <div class="topic-formula">A = πr²</div>
+        </article>
+
+        <article class="topic-card">
+          <div class="topic-number">SUBJECT 003</div>
+          <h3>Calculus</h3>
+          <p>
+            Investigate change, rates, accumulation, derivatives,
+            and the areas beneath curves.
+          </p>
+          <div class="topic-formula">f′(x) = dy/dx</div>
+        </article>
+      </div>
     </section>
 
-    <section id="about">
-      <h2>About This Website</h2>
+    <section class="content-section" id="calculator">
+      <div class="section-heading">
+        <div>
+          <div class="section-label">02 / INTERACTIVE TOOL</div>
+          <h2>Calculation Desk</h2>
+        </div>
+        <span>LIVE COMPUTATION</span>
+      </div>
+
+      <div class="calculator-panel">
+        <div class="calculator-info">
+          <div class="section-label">ARITHMETIC ENGINE</div>
+
+          <h3>Test an expression.</h3>
+
+          <p>
+            Enter two numbers, choose an operation, and calculate
+            the result directly in your browser.
+          </p>
+
+          <div class="big-symbol" aria-hidden="true">± × ÷</div>
+        </div>
+
+        <div class="calculator">
+          <label for="numberA">INPUT A</label>
+          <input id="numberA" type="number" step="any"
+            placeholder="Enter a number">
+
+          <label for="operation">OPERATION</label>
+          <select id="operation">
+            <option value="+">Addition (+)</option>
+            <option value="-">Subtraction (−)</option>
+            <option value="*">Multiplication (×)</option>
+            <option value="/">Division (÷)</option>
+            <option value="^">Exponentiation (aᵇ)</option>
+            <option value="%">Modulo (remainder)</option>
+          </select>
+
+          <label for="numberB">INPUT B</label>
+          <input id="numberB" type="number" step="any"
+            placeholder="Enter a number">
+
+          <button class="calculate-button" id="calculateButton"
+            type="button">EVALUATE EXPRESSION →</button>
+
+          <div class="result-box" aria-live="polite">
+            <div class="result-label">RESULT</div>
+            <div id="result">Awaiting input...</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="theorem" id="theorem">
+      <div class="theorem-top">03 / THEOREM OF THE DAY</div>
+
+      <h2>The Pythagorean Theorem</h2>
+
       <p>
-        This website is built with HTML, CSS, and JavaScript
-        and hosted for free with GitHub Pages.
+        In a right-angled triangle, the square of the hypotenuse
+        equals the sum of the squares of the other two sides.
+      </p>
+
+      <div class="theorem-formula">
+        a² + b² = c²
+      </div>
+
+      <p>
+        For example, if a = 3 and b = 4, then c² = 9 + 16 = 25,
+        meaning c = 5. This relationship connects algebra with
+        geometry and appears in countless applications.
       </p>
     </section>
+
   </main>
 
   <footer>
-    Math & Robot Lab · Built with code
+    <strong>MATHEMATICA</strong>
+    <p>Every equation is a question waiting to be explored.</p>
+    <p>Built with HTML, CSS, and JavaScript.</p>
   </footer>
 
   <script>
-    function calculate(operation) {
-      const a = document.getElementById("numberA").value;
-      const b = document.getElementById("numberB").value;
-      const result = document.getElementById("result");
+    const numberA = document.getElementById("numberA");
+    const numberB = document.getElementById("numberB");
+    const operation = document.getElementById("operation");
+    const result = document.getElementById("result");
+    const calculateButton = document.getElementById("calculateButton");
 
-      if (a.trim() === "" || b.trim() === "") {
-        result.textContent = "Please enter both numbers.";
+    function calculate() {
+      const aText = numberA.value.trim();
+      const bText = numberB.value.trim();
+
+      if (aText === "" || bText === "") {
+        result.textContent = "Enter both numbers first.";
         return;
       }
 
-      const x = Number(a);
-      const y = Number(b);
+      const a = Number(aText);
+      const b = Number(bText);
       let answer;
 
-      if (operation === "+") answer = x + y;
-      if (operation === "-") answer = x - y;
-      if (operation === "*") answer = x * y;
+      switch (operation.value) {
+        case "+":
+          answer = a + b;
+          break;
 
-      if (operation === "/") {
-        if (y === 0) {
-          result.textContent = "Cannot divide by zero.";
+        case "-":
+          answer = a - b;
+          break;
+
+        case "*":
+          answer = a * b;
+          break;
+
+        case "/":
+          if (b === 0) {
+            result.textContent = "Division by zero is undefined.";
+            return;
+          }
+          answer = a / b;
+          break;
+
+        case "^":
+          answer = a ** b;
+          break;
+
+        case "%":
+          if (b === 0) {
+            result.textContent = "The remainder by zero is undefined.";
+            return;
+          }
+          answer = a % b;
+          break;
+
+        default:
+          result.textContent = "Unknown operation.";
           return;
-        }
-        answer = x / y;
       }
 
-      result.textContent = "Result: " + answer;
+      if (!Number.isFinite(answer)) {
+        result.textContent = "The result is outside the supported range.";
+        return;
+      }
+
+      result.textContent = Number(answer.toPrecision(12)).toString();
     }
+
+    calculateButton.addEventListener("click", calculate);
+
+    [numberA, numberB].forEach(function (input) {
+      input.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          calculate();
+        }
+      });
+    });
   </script>
+
 </body>
 </html>
